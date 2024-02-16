@@ -1,0 +1,14 @@
+{% extends "app_service_watch/base.html" %}
+{% load static %}
+{% block contenidoVariable%}
+    <h1>
+        Servicios prestados
+    </h1>
+    <ul>
+    {% for serv in servicios_prestados%}
+    <li>
+       Id: {{serv.id}}, servicio: {{serv.name}}, fecha de actualización: {{serv.completion_date}}, Completado: {{serv.completed}}.
+    </li>
+    </ul>
+    {% endfor %}
+{% endblock contenidoVariable%}
