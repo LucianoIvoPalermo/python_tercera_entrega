@@ -14,7 +14,10 @@ def clients(request):
     return render(request, "app_service_watch/clients.html")
 
 def staff(request):
-    return render(request, "app_service_watch/staff.html")
+
+    get_staff = Staff.objects.all()
+
+    return render(request, "app_service_watch/staff.html", {"get_staff" : get_staff})
 
 def staff_form(request):
     
@@ -28,9 +31,9 @@ def staff_form(request):
 
             informacion = staffForm.cleaned_data    
 
-            serv_prov_form = Staff(name=informacion['name'], completion_date=informacion['completion_date'],completed=informacion['completed'])
+            staff_form = Staff(name=informacion['name'], last_name=informacion['last_name'],email=informacion['email'])
 
-            serv_prov_form.save()
+            staff_form.save()
 
         return render(request, "app_service_watch/index.html")
     
@@ -69,9 +72,10 @@ def services_provided_form(request):
 
     return render(request, "app_service_watch/services_provided_form.html", {"spForm": spForm})
 
-
 def pending_services(request):
+
     pend_serv = PendingServices.objects.all()
+
     return render(request, "app_service_watch/pending_services.html", {"servicios_pendientes" : pend_serv})
 
 def pending_services_form(request):
@@ -84,9 +88,9 @@ def pending_services_form(request):
 
         if psForm.is_valid():
 
-            informacion = psForm.cleaned_data    
+            informacion = psForm.cleaned_data
 
-            pend_serv_form = PendingServicesForm(name=informacion['name'], status_update_date=informacion['status_update_date'],status=informacion['status'])
+            pend_serv_form = PendingServices(name=informacion['name'], status_update_date=informacion['status_update_date'], status=informacion['status'])
 
             pend_serv_form.save()
 
@@ -98,12 +102,18 @@ def pending_services_form(request):
     return render(request, "app_service_watch/pending_services_form.html", {"psForm": psForm})
 
 def search(request):
+
     if request.method == "POST":
+
         miFormulario = Search(request.POST)
+
         if miFormulario.is_valid():
+            
             info = miFormulario.cleaned_data
-            busquedaservicios = ServicesProvided.objects.filter(name__incontains=info["name"]) 
-            return render(request, "app_service_watch/search.html", {"busquedaserv": busquedaservicios })
+            
+            busquedaserv = ServicesProvided.objects.filter(name__icontains=info["name"]) 
+            
+            return render(request, "app_service_watch/search.html", {"busquedaserv": busquedaserv })
     else:
         miFormulario = Search()
 

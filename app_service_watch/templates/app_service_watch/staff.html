@@ -4,8 +4,11 @@
     <h1>
        Staff
     </h1>
-    
-    <h2>
-       B
-    </h2>
+    <ul>
+      {% for staff in get_staff %}
+      <li>
+         Id: {{staff.id}}, Nombre: {{staff.name}}, Apellido: {{staff.last_name}}, Email: {{staff.email}}.
+      </li>
+      </ul>
+      {% endfor %}
 {% endblock contenidoVariable%}

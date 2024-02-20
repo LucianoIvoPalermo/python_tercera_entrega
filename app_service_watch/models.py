@@ -1,5 +1,4 @@
 from django.db import models
-
 class Clients(models.Model):
     name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=30)
